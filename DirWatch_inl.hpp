@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-// DirWatch_inl.h -- Win32 directory watcher
+// DirWatch_inl.hpp -- Win32 directory watcher
 // This file is part of MZC3.  See file "ReadMe.txt" and "License.txt".
 ////////////////////////////////////////////////////////////////////////////
 
@@ -36,19 +36,18 @@ MZC_INLINE bool MDirWatch::operator!() const
     return m_hFindChange == INVALID_HANDLE_VALUE;
 }
 
-MZC_INLINE void MDirWatch::operator=(HANDLE hFindChange)
+MZC_INLINE MDirWatch& MDirWatch::operator=(HANDLE hFindChange)
 {
     assert(hFindChange != NULL && hFindChange != INVALID_HANDLE_VALUE);
     if (m_hFindChange != hFindChange)
-    {
-        if (m_hFindChange != INVALID_HANDLE_VALUE)
-            FindCloseChangeNotification();
-        m_hFindChange = hFindChange;
-    }
+        Attach(hFindChange);
+    return *this;
 }
 
-MZC_INLINE VOID MDirWatch::Attach(HANDLE hFindChange)
+MZC_INLINE void MDirWatch::Attach(HANDLE hFindChange)
 {
+    if (m_hFindChange != INVALID_HANDLE_VALUE)
+        FindCloseChangeNotification();
     assert(hFindChange != NULL && hFindChange != INVALID_HANDLE_VALUE);
     assert(m_hFindChange == INVALID_HANDLE_VALUE);
     m_hFindChange = hFindChange;

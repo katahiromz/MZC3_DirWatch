@@ -8,7 +8,7 @@
 #ifdef MZC_NO_INLINING
     #undef MZC_INLINE
     #define MZC_INLINE  /*empty*/
-    #include "DirWatch_inl.h"
+    #include "DirWatch_inl.hpp"
 #endif
 
 ////////////////////////////////////////////////////////////////////////////

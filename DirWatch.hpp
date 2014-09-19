@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-// DirWatch.h -- Win32 directory watcher
+// DirWatch.hpp -- Win32 directory watcher
 // This file is part of MZC3.  See file "ReadMe.txt" and "License.txt".
 ////////////////////////////////////////////////////////////////////////////
 
@@ -34,10 +34,10 @@ public:
     operator bool() const;
     bool operator!() const;
     operator HANDLE() const;
-    void operator=(HANDLE hFindChange);
+    MDirWatch& operator=(HANDLE hFindChange);
     PHANDLE operator&();
 
-    VOID Attach(HANDLE hFindChange);
+    void Attach(HANDLE hFindChange);
     HANDLE Detach();
 
     BOOL FindFirstChangeNotification(
@@ -52,6 +52,11 @@ public:
 
 public:
     HANDLE m_hFindChange;
+
+private:
+    // NOTE: MDirWatch is not copyable.
+    MDirWatch(const MDirWatch& dw);
+    MDirWatch& operator=(const MDirWatch& dw);
 };
 
 ////////////////////////////////////////////////////////////////////////////
@@ -59,7 +64,7 @@ public:
 #ifndef MZC_NO_INLINING
     #undef MZC_INLINE
     #define MZC_INLINE inline
-    #include "DirWatch_inl.h"
+    #include "DirWatch_inl.hpp"
 #endif
 
 #endif  // ndef __MZC3_DIRWATCH__
